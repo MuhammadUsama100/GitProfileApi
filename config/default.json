@@ -1,0 +1,3 @@
+{
+  "mongoURI": "mongodb+srv://usama:usama@merncluster-e22ge.mongodb.net/test?retryWrites=true&w=majority"
+}
