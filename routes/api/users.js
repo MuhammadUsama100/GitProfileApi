@@ -2,6 +2,8 @@ const express = require("express");
 const route = express.Router();
 const gravitar = require("gravatar");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const config = require("config");
 const { check, validationResult } = require("express-validator");
 //route.get("/", (req, res) => res.send("user"));
 
@@ -53,7 +55,22 @@ route.post(
       const salt = await bcrypt.genSalt(10);
       user.password = await bcrypt.hash(password, salt);
       await user.save();
-      res.send("User Registered");
+
+      const paylod = {
+        user: {
+          id: user.id
+        }
+      };
+      jwt.sign(
+        paylod,
+        config.get("jwtSecret"),
+        { expiresIn: 360000 },
+        (err, token) => {
+          if (err) throw err;
+          res.json({ token });
+        }
+      ); // for production 3600
+      //res.send("User Registered");
     } catch (err) {
       console.log(err.message);
       res.status(500).send("Server error");
