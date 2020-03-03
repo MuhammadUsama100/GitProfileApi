@@ -1,4 +1,6 @@
 {
   "mongoURI": "mongodb://usama:usama@merncluster-shard-00-00-e22ge.mongodb.net:27017,merncluster-shard-00-01-e22ge.mongodb.net:27017,merncluster-shard-00-02-e22ge.mongodb.net:27017/test?ssl=true&replicaSet=MernCluster-shard-0&authSource=admin&retryWrites=true&w=majority",
-  "jwtSecret": "mysecrettoken"
+  "jwtSecret": "mysecrettoken",
+  "githubClientId": "9d9803d40acfe26c7866",
+  "githubSecret": "72f070777406c30f3c90587007957ed8786db969"
 }
