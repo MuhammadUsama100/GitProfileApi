@@ -52,4 +52,41 @@ route.get("/", auth, async (req, res) => {
   }
 });
 
+//get post by id
+route.get("/:id", auth, async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id);
+    if (!post) {
+      return res.status(404).json({ msg: "Post not found" });
+    }
+    res.json(post);
+  } catch (error) {
+    console.log(error.message);
+    if (error.kind == "ObjectId")
+      return res.status(404).json({ msg: "Post not Found" });
+    res.status(500).send("Server Error");
+  }
+});
+
+// delete post by id
+route.delete("/:id", auth, async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id);
+    if (!post) {
+      return res.status(404).json({ msg: "Post Not Found" });
+    }
+    //  check user
+    if (post.user.toString() !== req.user.id) {
+      return res.status(401).json({ msg: "user not autharized" });
+    }
+    await post.remove();
+    res.json({ msg: "Post Removed" });
+  } catch (error) {
+    console.log(error.message);
+    if (error.kind == "ObjectId")
+      return res.status(404).json({ msg: "Post not Found" });
+    res.status(500).send("Server Error");
+  }
+});
+
 module.exports = route;
